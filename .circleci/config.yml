@@ -10,13 +10,18 @@ jobs:
       - checkout
 
       - kubernetes/install-kubeconfig:
-          kubeconfig: KUBECONFIG
+          kubeconfig: _KUBECONFIG
 
       - kubernetes/install-kubectl
 
       - run:
           name: Create tmp directory
           command: mkdir tmp
+
+      - run:
+          name: echo $CIRCLE_KUBECONFIG
+          command: echo $CIRCLE_KUBECONFIG
+
            
       - run:
           name: Copy yamls to tmp
