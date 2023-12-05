@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
         - name: storage-api
-          image: isotiropoulos/storage-api
+          image: buildspace/storage-api
           ports:
             - containerPort: 8006
 #          imagePullPolicy: IfNotPresent

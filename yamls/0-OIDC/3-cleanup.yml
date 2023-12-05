@@ -1,65 +1,65 @@
-apiVersion: batch/v1
-kind: CronJob
-metadata:
-  name: keycloak-group-cleanup
-  namespace: oidc
-spec:
-  schedule: "0 */12 * * *"  # run at every 12 hours every day
-  # schedule: "* * * * *"   # run at every minute to test
-  jobTemplate:
-    spec:
-      template:
-        spec:
-          containers:
-          - name: cleanup-container
-            image: isotiropoulos/keycloak-cleanup
-            env:
-            - name: KEYCLOAK_ADMIN_USER
-              valueFrom:
-                secretKeyRef:
-                  name: oidc-secret
-                  key: username
-            - name: KEYCLOAK_ADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: oidc-secret
-                  key: password
-            - name: KEYCLOAK_HOST
-              value: http://keycloak.oidc:8080
-            command: ["python"]
-            args: ["cleanup_script.py"]
-          restartPolicy: Never
-      backoffLimit: 0
-  successfulJobsHistoryLimit: 1
-  failedJobsHistoryLimit: 1
-
-# ---
-# apiVersion: v1
-# kind: Pod
+# apiVersion: batch/v1
+# kind: CronJob
 # metadata:
-#   name: cleanup-pod
+#   name: keycloak-group-cleanup
 #   namespace: oidc
-#   labels:
-#     app: cleanup
 # spec:
-#   containers:
-#   - name: cleanup-container
-#     image: isotiropoulos/keycloak-cleanup
-#     env:
-#     - name: KEYCLOAK_ADMIN_USER
-#       valueFrom:
-#         secretKeyRef:
-#           name: oidc-secret
-#           key: username
-#     - name: KEYCLOAK_ADMIN_PASSWORD
-#       valueFrom:
-#         secretKeyRef:
-#           name: oidc-secret
-#           key: password
-#     - name: KEYCLOAK_HOST
-#       # value: "http://localhost:30105"
-#       # value: http://keycloak.oidc.svc.cluster.local:8080      
-#       # value: http://10.106.67.196:8080
-#       value: http://keycloak.oidc:8080
-#     command: ["python"]
-#     args: ["cleanup_script.py"]
+#   schedule: "0 */12 * * *"  # run at every 12 hours every day
+#   # schedule: "* * * * *"   # run at every minute to test
+#   jobTemplate:
+#     spec:
+#       template:
+#         spec:
+#           containers:
+#           - name: cleanup-container
+#             image: buildspace/keycloak-cleanup
+#             env:
+#             - name: KEYCLOAK_ADMIN_USER
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: oidc-secret
+#                   key: username
+#             - name: KEYCLOAK_ADMIN_PASSWORD
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: oidc-secret
+#                   key: password
+#             - name: KEYCLOAK_HOST
+#               value: http://keycloak.oidc:8080
+#             command: ["python"]
+#             args: ["cleanup_script.py"]
+#           restartPolicy: Never
+#       backoffLimit: 0
+#   successfulJobsHistoryLimit: 1
+#   failedJobsHistoryLimit: 1
+
+# # ---
+# # apiVersion: v1
+# # kind: Pod
+# # metadata:
+# #   name: cleanup-pod
+# #   namespace: oidc
+# #   labels:
+# #     app: cleanup
+# # spec:
+# #   containers:
+# #   - name: cleanup-container
+# #     image: buildspace/keycloak-cleanup
+# #     env:
+# #     - name: KEYCLOAK_ADMIN_USER
+# #       valueFrom:
+# #         secretKeyRef:
+# #           name: oidc-secret
+# #           key: username
+# #     - name: KEYCLOAK_ADMIN_PASSWORD
+# #       valueFrom:
+# #         secretKeyRef:
+# #           name: oidc-secret
+# #           key: password
+# #     - name: KEYCLOAK_HOST
+# #       # value: "http://localhost:30105"
+# #       # value: http://keycloak.oidc.svc.cluster.local:8080      
+# #       # value: http://10.106.67.196:8080
+# #       value: http://keycloak.oidc:8080
+# #     command: ["python"]
+# #     args: ["cleanup_script.py"]

@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: account-manager-api
-          image: isotiropoulos/account-manager-api
+          image: buildspace/account-manager-api
           ports:
             - containerPort: 5000
           env:
