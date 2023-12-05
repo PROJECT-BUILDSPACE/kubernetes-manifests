@@ -1,0 +1,84 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: data-mongo
+  namespace: buildspace-storage
+spec:
+  storageClassName: slow
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/db"
+  persistentVolumeReclaimPolicy: Retain
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service
+  namespace: buildspace-storage
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 27017
+      targetPort: 27017
+  selector:
+    app: mongo-database
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data-mongo-claim
+  namespace: buildspace-storage
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  storageClassName: slow
+  resources:
+    requests:
+      storage: 20Gi
+status: {}
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: mongodb-deployemnt
+  namespace: buildspace-storage
+spec:
+  selector:
+    matchLabels:
+      app: mongo-database
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: mongo-database
+      labels:
+        app: mongo-database
+    spec:
+      containers:
+      - name: mongo-database
+        image: mongo:4.2
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - name: data-mongo-storage
+          mountPath: /data/db
+      volumes:
+      - name: data-mongo-storage
+        persistentVolumeClaim:
+          claimName: data-mongo-claim
+        # env:
+        # - name: MONGO_INITDB_ROOT_USERNAME
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: secret-mongo
+        #       key: username
+        # - name: MONGO_INITDB_ROOT_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: secret-mongo
+        #       key: password

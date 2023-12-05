@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: keycloak-ingress
+  namespace: oidc
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: keycloak-dataspaces.euinno.eu
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name:  keycloak
+            port:
+              number: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-account-ingress
+  namespace: oidc
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: account-dataspaces.euinno.eu
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: account-manager-api
+            port:
+              number: 80

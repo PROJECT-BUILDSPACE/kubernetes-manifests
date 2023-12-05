@@ -23,9 +23,9 @@ jobs:
           command: echo $CIRCLE_KUBECONFIG
 
            
-      # - run:
-      #     name: Copy yamls to tmp
-      #     command: find "yamls" -type f -name "*.y*ml" -exec cp {} tmp/ \;
+      - run:
+          name: Copy yamls to tmp
+          command: find "yamls" -type f -name "*.y*ml" -exec cp {} tmp/ \;
            
       - run:
           name: List tmp
