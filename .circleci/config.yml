@@ -21,6 +21,10 @@ jobs:
       - run:
           name: Copy yamls to tmp
           command: find "yamls" -type f -name "*.y*ml" -exec cp {} tmp/ \;
+           
+      - run:
+          name: List tmp
+          command: ls tmp;
 
       - kubernetes/create-or-update-resource:
           resource-file-path: "tmp"
