@@ -28,6 +28,7 @@ jobs:
 
       - kubernetes/create-or-update-resource:
           resource-file-path: "tmp"
+          envsubst: true
 
       - run:
           name: Delete tmp
