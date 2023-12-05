@@ -1,12 +1,35 @@
 version: 2.1
+orbs:
+  kubernetes: circleci/kubernetes@1.3.1
 jobs:
-  build:
+  deploy-manifests:
     docker:
       - image: cimg/base:current
     resource_class: project-buildspace/circleci
     steps:
-      - run: echo "Hi I'm on a Container Runner!!!"
+      - checkout
+
+      - kubernetes/install-kubeconfig:
+          kubeconfig: KUBECONFIG
+
+      - kubernetes/install-kubectl
+
+      - run:
+          name: Create tmp directory
+          command: mkdir tmp
+           
+      - run:
+          name: Copy yamls to tmp
+          command: find "yamls" -type f -name "*.y*ml" -exec cp {} tmp/ \;
+
+      - kubernetes/create-or-update-resource:
+          resource-file-path: "tmp"
+
+      - run:
+          name: Delete tmp
+          command: rm -rf tmp
+
 workflows:
   build-workflow:
     jobs:
-      - build
+      - deploy-manifests
