@@ -51,7 +51,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-  - host: testapp-dataspaces.euinno.eu
+  - host: testapp-buildspace.euinno.eu
     http:
       paths:
       - path: /

@@ -9,7 +9,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
 spec:
   rules:
-  - host: minio-dataspaces.euinno.eu
+  - host: minio-buildspace.euinno.eu
     http:
       paths:
       - path: /
@@ -31,7 +31,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
 spec:
   rules:
-  - host: minioapi-dataspaces.euinno.eu
+  - host: minioapi-buildspace.euinno.eu
     http:
       paths:
       - path: /
@@ -53,7 +53,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
 spec:
   rules:
-  - host: api-dataspaces.euinno.eu
+  - host: api-buildspace.euinno.eu
     http:
       paths:
       - path: /

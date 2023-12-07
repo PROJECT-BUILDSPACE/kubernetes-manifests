@@ -7,7 +7,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-  - host: keycloak-dataspaces.euinno.eu
+  - host: keycloak-buildspace.euinno.eu
     http:
       paths:
       - path: /
@@ -27,7 +27,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-  - host: account-dataspaces.euinno.eu
+  - host: account-buildspace.euinno.eu
     http:
       paths:
       - path: /
