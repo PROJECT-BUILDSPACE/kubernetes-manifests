@@ -44,7 +44,7 @@ jobs:
            
       - run:
           name: Copy yamls to tmp
-          command: find "yamls" -type f -name "*.y*ml" -exec cp {} tmp/ \;
+          command: find "yamls" -type f -name "*.y*ml" -exec sh -c 'cp "{}" "tmp/$(echo "{}" | tr / -)"' \;
            
       - run:
           name: List tmp
