@@ -66,7 +66,7 @@ jobs:
 
       - kubernetes/update-container-image:
           container-image-updates: << pipeline.parameters.container >> = << pipeline.parameters.image >>
-          resource-name: deployment/<< pipeline.parameters.deployment >>
+          resource-name: << pipeline.parameters.deployment >>
           show-kubectl-command: true
 
 workflows:
