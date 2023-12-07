@@ -52,24 +52,20 @@ jobs:
           name: Delete tmp
           command: rm -rf tmp
     
-    update-resources:
-      docker:
-        - image: cimg/base:current
-      resource_class: project-buildspace/circleci
-      steps:
-        - kubernetes/install-kubeconfig:
-            kubeconfig: _KUBECONFIG
+  update-resources:
+    docker:
+      - image: cimg/base:current
+    resource_class: project-buildspace/circleci
+    steps:
+      - kubernetes/install-kubeconfig:
+          kubeconfig: _KUBECONFIG
 
-        - kubernetes/install-kubectl
+      - kubernetes/install-kubectl
 
-        - kubernetes/update-container-image:
-             container-image-updates: << pipeline.parameters.container >> = << pipeline.parameters.container >> : latest
-             resource-name: deployment/<< pipeline.parameters.deployment >>
-             show-kubectl-command: true
-
-
-
-
+      - kubernetes/update-container-image:
+          container-image-updates: << pipeline.parameters.container >> = << pipeline.parameters.container >>:latest
+          resource-name: deployment/<< pipeline.parameters.deployment >>
+          show-kubectl-command: true
 
 workflows:
   build-workflow:
