@@ -47,12 +47,11 @@ jobs:
           command: find "yamls" -type f -name "*.y*ml" -exec cp {} tmp/ \;
            
       - run:
-          name: List pipeline
-          command: echo << pipeline.parameters.container >>
+          name: List tmp
+          command: ls tmp;
 
       - kubernetes/create-or-update-resource:
           resource-file-path: "tmp"
-          # envsubst: true
 
       - run:
           name: Delete tmp
