@@ -13,7 +13,9 @@ parameters:
   container:
     type: string
     default: "invalid container"
-
+  image:
+      type: string
+      default: "invalid image"
 jobs:
   deploy-manifests:
     docker:
@@ -63,12 +65,13 @@ jobs:
       - kubernetes/install-kubectl
 
       - kubernetes/update-container-image:
-          container-image-updates: << pipeline.parameters.container >> = << pipeline.parameters.container >>:latest
+          container-image-updates: << pipeline.parameters.container >> = << pipeline.parameters.image >>
           resource-name: deployment/<< pipeline.parameters.deployment >>
           show-kubectl-command: true
 
 workflows:
   build-workflow:
+    unless: << pipeline.parameters.ondemand >>
     jobs:
       - deploy-manifests
 

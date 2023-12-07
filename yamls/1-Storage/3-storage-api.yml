@@ -55,7 +55,7 @@ spec:
           - name: MINIO_URL
             value: minio.buildspace-storage:9000
           - name: OIDC_PROVIDER
-            value: https://keycloak-dataspaces.euinno.eu/auth/realms/buildspace
+            value: https://keycloak-buildspace.euinno.eu/auth/realms/buildspace
           - name: CLIENT_ID
             valueFrom:
               secretKeyRef:

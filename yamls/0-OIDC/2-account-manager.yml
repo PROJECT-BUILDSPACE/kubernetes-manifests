@@ -44,7 +44,7 @@ spec:
             value: buildspace
           - name: ISSUER
 #            value: "keycloak.oidc:8080/auth"
-            value: "https://keycloak-dataspaces.euinno.eu/auth"
+            value: "https://keycloak-buildspace.euinno.eu/auth"
           - name: BS_CERTS
             value: "/realms/buildspace/protocol/openid-connect/certs"
           - name: DEBUG
