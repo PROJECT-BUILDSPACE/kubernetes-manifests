@@ -108,7 +108,7 @@ spec:
       containers:
         - name: keycoak
           image:  jboss/keycloak
-          args: ["-Dkeycloak.profile.feature.scripts=enabled","-Dkeycloak.profile.feature.upload_scripts=enabled", "Dkeycloak.import=/realms/buildspace-realm.json"]
+          args: ["-Dkeycloak.profile.feature.scripts=enabled","-Dkeycloak.profile.feature.upload_scripts=enabled", "-Dkeycloak.import=/realms/buildspace-realm.json"]
           ports:
             - name: http
               containerPort: 8080
