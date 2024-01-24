@@ -47,6 +47,10 @@ jobs:
           command: find "yamls" -type f -name "*.y*ml" -exec sh -c 'cp "{}" "tmp/$(echo "{}" | tr / -)"' \;
            
       - run:
+          name: ls
+          command: ls;
+           
+      - run:
           name: List tmp
           command: ls tmp;
 
