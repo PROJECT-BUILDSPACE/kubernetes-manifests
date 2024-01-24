@@ -88,7 +88,33 @@ spec:
   resources:
     requests:
       storage: 4Gi
-
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: buildspace-realm-pv
+spec:
+  capacity:
+    storage: 100Mi  # Adjusted to match the size of your JSON file
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /realms/buildspace-realm.json
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: buildspace-realm-pvc
+  namespace: oidc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi  # Adjusted to match the size of your JSON file
+  selector:
+    matchLabels:
+      purpose: buildspace-realm
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -151,6 +177,13 @@ spec:
                 secretKeyRef:
                   name: oidc-secret
                   key: password
+          volumeMounts:
+            - name: buildspace-realm
+              mountPath: /realms
+      volumes:
+        - name: buildspace-realm
+          persistentVolumeClaim:
+            claimName: buildspace-realm-pvc
 ---
 apiVersion: v1
 kind: Service
