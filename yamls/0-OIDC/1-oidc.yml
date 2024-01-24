@@ -88,35 +88,35 @@ spec:
   resources:
     requests:
       storage: 4Gi
-# ---
-# kind: PersistentVolume
-# apiVersion: v1
-# metadata:
-#   name: buildspace-realm
-#   namespace: oidc
-# spec:
-#   storageClassName: slow
-#   capacity:
-#     storage: 100Mi
-#   accessModes:
-#     - ReadWriteOnce
-#   hostPath:
-#     path: "/"
-#   persistentVolumeReclaimPolicy: Retain
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: buildspace-realm-pvc
-#   namespace: oidc
-# spec:
-#   accessModes:
-#     - ReadWriteOnce
-#   volumeMode: Filesystem
-#   storageClassName: slow
-#   resources:
-#     requests:
-#       storage: 4Gi
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: buildspace-realm
+  namespace: oidc
+spec:
+  storageClassName: slow
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/yamls/0-OIDC/realms/buildspace-realm.json"
+  persistentVolumeReclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: buildspace-realm-pvc
+  namespace: oidc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  storageClassName: slow
+  resources:
+    requests:
+      storage: 4Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -179,13 +179,13 @@ spec:
                 secretKeyRef:
                   name: oidc-secret
                   key: password
-      #     volumeMounts:
-      #       - name: buildspace-realm
-      #         mountPath: /realms
-      # volumes:
-      #   - name: buildspace-realm
-      #     persistentVolumeClaim:
-      #       claimName: buildspace-realm-pvc
+          volumeMounts:
+            - name: buildspace-realm
+              mountPath: /yamls/0-OIDC/realms
+      volumes:
+        - name: buildspace-realm
+          persistentVolumeClaim:
+            claimName: buildspace-realm-pvc
 ---
 apiVersion: v1
 kind: Service
