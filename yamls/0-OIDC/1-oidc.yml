@@ -89,35 +89,6 @@ spec:
     requests:
       storage: 4Gi
 ---
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: buildspace-realm
-  namespace: oidc
-spec:
-  storageClassName: slow
-  capacity:
-    storage: 100Mi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/yamls/0-OIDC/realms"
-  persistentVolumeReclaimPolicy: Retain
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: buildspace-realm-pvc
-  namespace: oidc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  volumeMode: Filesystem
-  storageClassName: slow
-  resources:
-    requests:
-      storage: 4Gi
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -135,8 +106,8 @@ spec:
     spec:
       containers:
         - name: keycoak
-          image:  jboss/keycloak
-          args: ["-Dkeycloak.profile.feature.scripts=enabled","-Dkeycloak.profile.feature.upload_scripts=enabled"] #"-Dkeycloak.import=/realms/buildspace-realm.json"
+          image:  buildspace/keycloak-with-theme
+          args: ["-Dkeycloak.profile.feature.scripts=enabled","-Dkeycloak.profile.feature.upload_scripts=enabled", "-Dkeycloak.import=/opt/jboss/keycloak/imports/buildspace-realm.json"]
           ports:
             - name: http
               containerPort: 8080
@@ -179,13 +150,6 @@ spec:
                 secretKeyRef:
                   name: oidc-secret
                   key: password
-          volumeMounts:
-            - name: buildspace-realm-data
-              mountPath: /yamls/0-OIDC/realms
-      volumes:
-        - name: buildspace-realm-data
-          persistentVolumeClaim:
-            claimName: buildspace-realm-pvc
 ---
 apiVersion: v1
 kind: Service
