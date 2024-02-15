@@ -56,6 +56,8 @@ spec:
             value: minio.buildspace-storage:9000
           - name: OIDC_PROVIDER
             value: https://keycloak-buildspace.euinno.eu/auth/realms/buildspace
+          - name: COP_BUCKET_ID
+            value: 1ae79ed4-b1c0-49fb-a762-ed289663fa2c
           - name: CLIENT_ID
             valueFrom:
               secretKeyRef:
@@ -66,6 +68,26 @@ spec:
               secretKeyRef:
                 name: minio-client
                 key: password
+          - name: ADS_UID
+            valueFrom:
+              secretKeyRef:
+                name: secret-ads
+                key: UUID
+          - name: ADS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: secret-ads
+                key: key
+          - name: CDS_UID
+            valueFrom:
+              secretKeyRef:
+                name: secret-cds
+                key: UUID
+          - name: CDS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: secret-cds
+                key: key
       restartPolicy: Always
   selector:
     matchLabels:
