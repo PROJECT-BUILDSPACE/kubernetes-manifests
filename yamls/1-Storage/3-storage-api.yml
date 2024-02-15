@@ -1,3 +1,22 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: minio-keys
+  namespace: buildspace-storage
+data:
+  accessKey: c2E1REdZVkdpNDVGUTlKZVJyZkE=
+  secretAccessKey: UnN5UW9JOFRGd0FDak9Zak5NdE1vbHg0bGR4VmdWME92cTlNaTluUw==
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: minio-client
+  namespace: buildspace-storage
+data:
+  id: bWluaW9hcGk=
+  password: Yzlqemc4MElIRWVsUnNJODUwRWZsZ3FxbU15U3V3V2U=
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
