@@ -7,6 +7,15 @@ data:
   username: YnVpbGRzcGFjZQ==
   password: NEA4PGxrNDxpQWhwJm9m
 ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kc-client
+  namespace: oidc
+data:
+  id: bWluaW9hcGk=
+  secret: Yzlqemc4MElIRWVsUnNJODUwRWZsZ3FxbU15U3V3V2U=
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -38,6 +47,16 @@ spec:
               secretKeyRef:
                 name: admin-user
                 key: password
+          - name: CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: kc-client
+                key: id
+          - name: CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: kc-client
+                key: secret
           - name: ADMIN_CLIENT
             value: admin-cli
           - name: REALM
