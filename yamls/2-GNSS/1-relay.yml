@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: egnss-galileo
+  namespace: galileo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: egnss-galileo
+  template:
+    metadata:
+      labels:
+        app: egnss-galileo
+    spec:
+      containers:
+        - name: gnss-galileo
+          image: buildspace/egnss-galileo
+          ports:
+            - containerPort: 8080
+              name: galileo
+          env:
+            - name: GALILEO-PASS
+              valueFrom:
+                secretKeyRef:
+                  name: secret-galileo-user
+                  key: password
+            - name: GALILEO-USER
+              valueFrom:
+                secretKeyRef:
+                  name: secret-galileo-user
+                  key: username
+---
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: galileo
+  namespace: galileo
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+      name: http
+      nodePort: 30180
+      targetPort: 8080
+  selector:
+    app: egnss-galileo
+  type: NodePort
+  
+---
