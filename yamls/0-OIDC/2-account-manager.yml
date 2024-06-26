@@ -68,6 +68,26 @@ spec:
             value: "/realms/buildspace/protocol/openid-connect/certs"
           - name: DEBUG
             value: "false"
+            # For Pictures
+          - name: USER_DEFAULT_PICTURE
+            value: default_user_icon.png
+          - name: COPERNICUS_BUCKET_ID
+            value: 1ae79ed4-b1c0-49fb-a762-ed289663fa2c
+          - name: STORAGE
+            value: minioapi-buildspace.euinno.eu
+          - name: PICTURES_BUCKET_ENDPOINT
+            value: pictures
+          - name: ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: picture-keys
+                key: accessKey
+          - name: SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: picture-keys
+                key: secretAccessKey
+
       restartPolicy: Always
   selector:
     matchLabels:
